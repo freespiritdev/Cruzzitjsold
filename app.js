@@ -1,15 +1,47 @@
-var app = angular.module('cruzzit', []);
+var app = angular.module('cruzzit', ['ui.router']);
 
+app.config([
+'$stateProvider',
+'$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: '/home.html',
+      controller: 'MainCtrl'
+    });
+
+
+  $urlRouterProvider.otherwise('home');
+}]);
+
+ /*.state('posts', {
+      url: '/posts/{id}',
+      templateUrl: '/posts.html',
+      controller:  'PostsCtrl'
+    });
+*/
+app.factory('posts', [function(){
+  var o = {
+    posts: [{title:'cruzzit', link:'', upvotes:0}]
+  };
+  return o;
+}])
 app.controller('MainCtrl', [
 '$scope',
-function($scope){
-  $scope.posts = [
-    {title: 'post 1', upvotes: 8},
-    {title: 'post 2', upvotes: 4},
-    {title: 'post 3', upvotes: 12},
-    {title: 'post 4', upvotes: 6},
-    {title: 'post 5', upvotes: 2}
-];
+'posts',
+function($scope, posts){
+  $scope.posts = posts.posts;
+
+app.controller('PostsCtrl', [
+'$scope',
+'$stateParams',
+'posts',
+function($scope, $stateParams, posts){
+  $scope.post = posts.posts[$stateParams.id];
+}]);
+
 
   $scope.addPost = function(){
     if(!$scope.title || $scope.title === '') { return;}
@@ -21,5 +53,15 @@ function($scope){
   $scope.incrementUpvotes = function(post) {
     post.upvotes += 1;
   };
+
+  $scope.posts.push({
+    title: $scope.title,
+    link: $scope.link,
+    upvotes: 0,
+    comments: [
+      {author: 'Chase', body: 'Yay!', upvotes: 0},
+      {author: 'Jake',  body: 'I need a vacation!', upvotes: 0}
+    ]
+  });
 
 }]);
