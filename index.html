@@ -7,6 +7,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="app.js"></script>
   </head>
+
   <body ng-app="cruzzit" ng-controller="MainCtrl">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
@@ -49,6 +50,7 @@
         <button type="submit" class="btn btn-info">Post</button>
       </form>
   </script>
+
   <script type="text/ng-template" id="/posts.html">
     <div class="page-header">
       <h2>
@@ -67,7 +69,17 @@
       <span style="font-size:20px; margin-left:10px;">
         {{comment.body}}
       </span>
-  </div>
+    </div>
+
+    <form ng-submit="addComment()" style="margin-top:22px;">
+      <h3>Add new comment</h3>
+
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Say Something" ng ng-model="body">
+        </input>
+      </div>
+      <button type="submit" class="btn btn-info">Post</button>
+    </form>
 
   </script>
 
